@@ -2,9 +2,8 @@ package com.api.parkingcontrol.models;
 
 import java.io.Serializable;
 import java.util.Collection;
-
+import java.util.LinkedList;
 import java.util.UUID;
-
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +13,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,17 +30,17 @@ public class UserModel implements UserDetails, Serializable {
     private String username;
     @Column(nullable = false)
     private String password;
-//    @ManyToMany
-//    @JoinTable(name = "TB_USERS_ROLES",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private List<RoleModel> roles;
-//
-//
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return this.roles;
-//    }
+    @ManyToMany
+    @JoinTable(name = "TB_USERS_ROLES",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private LinkedList<RoleModel> roles;
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
+    }
 
     @Override
     public String getPassword() {
@@ -85,10 +87,4 @@ public class UserModel implements UserDetails, Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

@@ -2,7 +2,7 @@ package com.api.parkingcontrol.models;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -34,7 +34,7 @@ public class UserModel implements UserDetails, Serializable {
     @JoinTable(name = "TB_USERS_ROLES",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private LinkedList<RoleModel> roles;
+    private List<RoleModel> roles;
 
 
     @Override

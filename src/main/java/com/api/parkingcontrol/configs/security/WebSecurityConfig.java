@@ -2,12 +2,15 @@ package com.api.parkingcontrol.configs.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 public class WebSecurityConfig {
 	
 
@@ -17,9 +20,9 @@ public class WebSecurityConfig {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
-//                .antMatchers(HttpMethod.GET, "/parking-spot/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/parking-spot").hasRole("USER")
-//                .antMatchers(HttpMethod.DELETE, "/parking-spot/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/parking-spot/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/parking-spot").hasRole("USER")
+                .requestMatchers(HttpMethod.DELETE, "/parking-spot/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
